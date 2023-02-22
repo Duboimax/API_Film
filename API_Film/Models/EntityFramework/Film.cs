@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace API_Film.Models.EntityFramework
 {
-    [Table("film")]
+    [Table("t_e_film_flm")]
     public partial class Film
     {
         [Key]
@@ -21,7 +21,7 @@ namespace API_Film.Models.EntityFramework
         public string Resume { get; set; }
 
         [Column("flm_dateSortie")]
-        public DateTime? DateSortie { get; set; }
+        public DateTime? DateSortie { get; set; } = null!;
 
         [Column("flm_duree")]
         public decimal? Duree { get; set; }
@@ -29,8 +29,8 @@ namespace API_Film.Models.EntityFramework
         [Column("flm_genre")]
         [StringLength(30)]
         public string? Genre { get; set; }
-
-        [InverseProperty("FilmNaviguation")]
+        
+        [InverseProperty("FilmNavigation")]
         public virtual ICollection<Notation> NotationFilm { get; } = new List<Notation>();
     }
 }

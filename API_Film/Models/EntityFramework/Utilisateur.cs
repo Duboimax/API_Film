@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace API_Film.Models.EntityFramework
 {
-    [Table("Utilisateur")]
+    [Table("t_e_utilisateur_utl")]
     [Index(nameof(Mail), IsUnique = true)]
 
     public partial class Utilisateur
@@ -60,7 +60,7 @@ namespace API_Film.Models.EntityFramework
         [Column("utl_longtitude")]
         public float? Longitude { get; set; }
 
-        [Column("utl_datecreation")]
+        [Column("utl_datecreation", TypeName ="date")]
         [Required]
         public DateTime DateCreation { get; set; } = DateTime.Now;
 
