@@ -18,9 +18,9 @@ namespace API_Film.Models.EntityFramework
         public string Titre { get; set; }
 
         [Column("flm_resume")]
-        public string Resume { get; set; }
+        public string? Resume { get; set; }
 
-        [Column("flm_dateSortie")]
+        [Column("flm_datesortie", TypeName ="date")]
         public DateTime? DateSortie { get; set; } = null!;
 
         [Column("flm_duree")]

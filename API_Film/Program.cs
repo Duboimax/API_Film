@@ -1,3 +1,6 @@
+using API_Film.Models.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+
 namespace API_Film
 {
     public class Program
@@ -12,6 +15,8 @@ namespace API_Film
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<FilmRatingContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("FilmRatingDbContext")));
 
             var app = builder.Build();
 

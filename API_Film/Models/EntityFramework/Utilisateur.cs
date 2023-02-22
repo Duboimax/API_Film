@@ -57,7 +57,7 @@ namespace API_Film.Models.EntityFramework
         [Column("utl_latitude")]
         public float? Latitude { get; set; }
 
-        [Column("utl_longtitude")]
+        [Column("utl_longitude")]
         public float? Longitude { get; set; }
 
         [Column("utl_datecreation", TypeName ="date")]

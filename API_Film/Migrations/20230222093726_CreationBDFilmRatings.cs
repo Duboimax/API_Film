@@ -6,10 +6,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace API_Film.Migrations
 {
-    /// <inheritdoc />
     public partial class CreationBDFilmRatings : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -19,8 +17,8 @@ namespace API_Film.Migrations
                     flm_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     flm_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    flm_resume = table.Column<string>(type: "text", nullable: false),
-                    flm_dateSortie = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    flm_resume = table.Column<string>(type: "text", nullable: true),
+                    flm_datesortie = table.Column<DateTime>(type: "date", nullable: true),
                     flm_duree = table.Column<decimal>(type: "numeric", nullable: true),
                     flm_genre = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true)
                 },
@@ -45,7 +43,7 @@ namespace API_Film.Migrations
                     utl_ville = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     utl_pays = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true, defaultValue: "France"),
                     utl_latitude = table.Column<float>(type: "real", nullable: true),
-                    utl_longtitude = table.Column<float>(type: "real", nullable: true),
+                    utl_longitude = table.Column<float>(type: "real", nullable: true),
                     utl_datecreation = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
@@ -64,6 +62,7 @@ namespace API_Film.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_notation", x => new { x.flm_id, x.utl_id });
+                    table.CheckConstraint("ck_not_note", "not_note between 0 and 5");
                     table.ForeignKey(
                         name: "fk_notation_film",
                         column: x => x.flm_id,
@@ -88,7 +87,6 @@ namespace API_Film.Migrations
                 column: "utl_id");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -12,15 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_Film.Migrations
 {
     [DbContext(typeof(FilmRatingContext))]
-    [Migration("20230222085032_CreationBDFilmRatings")]
+    [Migration("20230222093726_CreationBDFilmRatings")]
     partial class CreationBDFilmRatings
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -35,8 +34,8 @@ namespace API_Film.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Filmid"));
 
                     b.Property<DateTime?>("DateSortie")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("flm_dateSortie");
+                        .HasColumnType("date")
+                        .HasColumnName("flm_datesortie");
 
                     b.Property<decimal?>("Duree")
                         .HasColumnType("numeric")
@@ -48,7 +47,6 @@ namespace API_Film.Migrations
                         .HasColumnName("flm_genre");
 
                     b.Property<string>("Resume")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("flm_resume");
 
@@ -84,6 +82,8 @@ namespace API_Film.Migrations
                     b.HasIndex("UtilisateurId");
 
                     b.ToTable("t_j_notation_not");
+
+                    b.HasCheckConstraint("ck_not_note", "not_note between 0 and 5");
                 });
 
             modelBuilder.Entity("API_Film.Models.EntityFramework.Utilisateur", b =>
@@ -112,7 +112,7 @@ namespace API_Film.Migrations
 
                     b.Property<float?>("Longitude")
                         .HasColumnType("real")
-                        .HasColumnName("utl_longtitude");
+                        .HasColumnName("utl_longitude");
 
                     b.Property<string>("Mail")
                         .HasMaxLength(100)

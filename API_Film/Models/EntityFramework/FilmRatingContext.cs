@@ -32,7 +32,7 @@ namespace API_Film.Models.EntityFramework
         {
             modelBuilder.Entity<Notation>(entity =>
             {
-                
+                entity.HasCheckConstraint("ck_not_note", "not_note between 0 and 5");
                 entity.HasKey(e => new { e.FilmId, e.UtilisateurId }).HasName("pk_notation");
 
                 entity.HasOne(d => d.FilmNavigation).WithMany(p => p.NotationFilm)
