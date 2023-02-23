@@ -6,7 +6,6 @@ namespace API_Film.Models.EntityFramework
 {
     public partial class FilmRatingContext : DbContext
     {
-        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         public FilmRatingContext()
         {
         }

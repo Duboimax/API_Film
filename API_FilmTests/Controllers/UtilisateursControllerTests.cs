@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using API_Film.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API_Film.Controllers.Tests
 {
@@ -18,8 +20,7 @@ namespace API_Film.Controllers.Tests
         private UtilisateursController controller;
 
         public UtilisateursControllerTests() 
-        {
-        }
+        {        }
 
         [TestInitialize()]
         public void Init()
@@ -33,25 +34,44 @@ namespace API_Film.Controllers.Tests
         [TestMethod()]
         public void UtilisateursControllerTest()
         {
-            
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetUtilisateursTest()
         {
-            Assert.Fail();
+            var result = controller.GetUtilisateurs();
+            
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual((System.Collections.ICollection)result.Result.Value, _context.Utilisateurs.ToList(), "Erreur les utilisateurs ne sont pas tous la");
         }
 
         [TestMethod()]
-        public void GetUtilisateurByIdTest()
+        public void GetUtilisateurByIdTest_testOK()
         {
-            Assert.Fail();
+            var result = controller.GetUtilisateurById(1);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Result.Value, _context.Utilisateurs.Where(c => c.UtilisateurId == 1).FirstOrDefault(), "Test pas Ok, L'utilisateur 1 n'est pas la");
+        }
+        [TestMethod()]
+        public void GetUtilisateurByIdTest_test_Pas_Ok()
+        {
+            var result = controller.GetUtilisateurById(30);
+
+            
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundResult), "Test pas ok pas de not found");
+           /* Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, StatusCodes.Status404NotFound, "Pas 404");*/
         }
 
         [TestMethod()]
         public void GetUtilisateurByEmailTest()
         {
-            Assert.Fail();
+            string mail = "rrichings1@naver.com";
+            var result = controller.GetUtilisateurByEmail(mail);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.Result.Value, _context.Utilisateurs.Where(c => c.Mail == mail).FirstOrDefault(), "Test pas ok, aucun email n'est affilié a un client");
         }
 
         [TestMethod()]
