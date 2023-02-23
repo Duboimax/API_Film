@@ -3,6 +3,7 @@ using System;
 using API_Film.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_Film.Migrations
 {
     [DbContext(typeof(FilmRatingContext))]
-    partial class FilmRatingContextModelSnapshot : ModelSnapshot
+    [Migration("20230223074733_NewAnnotations1")]
+    partial class NewAnnotations1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,8 +96,8 @@ namespace API_Film.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UtilisateurId"));
 
                     b.Property<string>("CodePostal")
-                        .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)")
                         .HasColumnName("utl_cp");
 
                     b.Property<DateTime>("DateCreation")
@@ -142,7 +144,8 @@ namespace API_Film.Migrations
 
                     b.Property<string>("Pwd")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
                         .HasColumnName("utl_pwd");
 
                     b.Property<string>("Rue")

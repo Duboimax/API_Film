@@ -24,16 +24,18 @@ namespace API_Film.Models.EntityFramework
         public string? Prenom { get; set; }
 
         [Column("utl_mobile")]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le numéro de téléphone ne doit pa dépasser 10 chiffres")]
         [MaxLength(10)]
         public string? Mobile { get;set; }
 
         [Column("utl_mail")]
-        [StringLength(100)]
-   
+        [Required]
+        [EmailAddress]
+        [StringLength(100, MinimumLength =6, ErrorMessage ="La longeur du mail doit être compris entre 6 et 100" )]
         public string? Mail { get; set; }
 
         [Column("utl_pwd")]
-        [StringLength(64)]
+        [RegularExpression(@"^(?=.\d)(?=.[A-Z])(?=.*\W).{12,20}$", ErrorMessage = "Le pwd doit être compris entre 12 et 20 charactère et doit contenir 1 majuscule, 1chiffre, 1 caractère spécial ")]
         [Required]
         public string? Pwd { get; set; }
 
@@ -43,7 +45,8 @@ namespace API_Film.Models.EntityFramework
         public string? Rue { get; set; }
 
         [Column("utl_cp")]
-        [StringLength(5)]
+        [Required]
+        [RegularExpression(@"^\d{1,5}$", ErrorMessage = "Le code postale doit contenir 5 chiffres")]
         public string? CodePostal { get; set; }
 
         [Column("utl_ville")]

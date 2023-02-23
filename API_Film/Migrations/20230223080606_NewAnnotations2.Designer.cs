@@ -3,6 +3,7 @@ using System;
 using API_Film.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_Film.Migrations
 {
     [DbContext(typeof(FilmRatingContext))]
-    partial class FilmRatingContextModelSnapshot : ModelSnapshot
+    [Migration("20230223080606_NewAnnotations2")]
+    partial class NewAnnotations2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
