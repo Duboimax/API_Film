@@ -30,13 +30,6 @@ namespace API_Film.Controllers.Tests
             controller = new UtilisateursController(_context);
         }
 
-
-        [TestMethod()]
-        public void UtilisateursControllerTest()
-        {
-            Assert.Fail();
-        }
-
         [TestMethod()]
         public void GetUtilisateursTest()
         {
@@ -83,7 +76,37 @@ namespace API_Film.Controllers.Tests
         [TestMethod()]
         public void PutUtilisateurTest()
         {
-            Assert.Fail();
+            Random rnd = new Random();
+            int chiffre = rnd.Next(1, 200);
+
+            Utilisateur userOld = new Utilisateur()
+            {
+                Nom = "Bidule",
+                Prenom = "Jean",
+                Mobile = "0606070809",
+                Mail = "machin" + chiffre + "@gmail.com",
+                Pwd = "Toto1234!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+
+            var userAdd = controller.PostUtilisateur(userOld).Result;
+            Utilisateur? userSearch = _context.Utilisateurs.Where(c => c.Mail == userOld.Mail).FirstOrDefault();
+
+            userOld.Nom = "Blanchar";
+            var result = controller.PutUtilisateur(userSearch.UtilisateurId, userOld).Result;
+
+            Assert.AreEqual("Blanchar", userOld.Nom, "Pas Identiques donc pas ok");
+            Assert.AreEqual(((NoContentResult)result).StatusCode, StatusCodes.Status204NoContent, "Pas 204");
+
+
+
+
+
         }
 
         [TestMethod]
@@ -109,9 +132,11 @@ namespace API_Film.Controllers.Tests
                 Latitude = null,
                 Longitude = null
             };
+
             // Act
             var result = controller.PostUtilisateur(userAtester).Result; // .Result pour appeler la méthode async de manière synchrone, afin d'attendre l’ajout
-                                                                         // Assert
+            
+            // Assert
             Utilisateur? userRecupere = _context.Utilisateurs.Where(u => u.Mail.ToUpper() ==
             userAtester.Mail.ToUpper()).FirstOrDefault(); // On récupère l'utilisateur créé directement dans la BD grace à son mail unique
             // On ne connait pas l'ID de l’utilisateur envoyé car numéro automatique.
@@ -123,7 +148,36 @@ namespace API_Film.Controllers.Tests
         [TestMethod()]
         public void DeleteUtilisateurTest()
         {
-            Assert.Fail();
+            Random rnd = new Random();
+            int chiffre = rnd.Next(1, 500);
+
+            Utilisateur userAtester = new Utilisateur()
+            {
+                Nom = "Poulain",
+                Prenom = "Florian",
+                Mobile = "0707070707",
+                Mail = "machin" + chiffre + "@gmail.com",
+                Pwd = "Toto9934!",
+                Rue = "Chemin de Bellevue",
+                CodePostal = "74940",
+                Ville = "Annecy-le-Vieux",
+                Pays = "France",
+                Latitude = null,
+                Longitude = null
+            };
+            _context.Utilisateurs.Add(userAtester);
+            _context.SaveChanges();
+
+            Utilisateur? userAdd = _context.Utilisateurs.Where(c => c.Mail== userAtester.Mail).FirstOrDefault();
+
+            var result = controller.DeleteUtilisateur(userAdd.UtilisateurId).Result;
+
+            Utilisateur? userDelete = _context.Utilisateurs.Where(c => c.Mobile== userAtester.Mobile).FirstOrDefault();
+
+            Assert.AreEqual(((NoContentResult)result).StatusCode, StatusCodes.Status204NoContent, "Pas 204");
+            Assert.AreEqual(null, userDelete, "Test pas ok, utilisateur pas supprimer");
+
+
         }
     }
 }
