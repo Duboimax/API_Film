@@ -1,4 +1,6 @@
+using API_Film.Models.DataManager;
 using API_Film.Models.EntityFramework;
+using API_Film.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Film
@@ -17,6 +19,8 @@ namespace API_Film
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<FilmRatingContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("FilmRatingDbContext")));
+
+            builder.Services.AddScoped<IDataRepository<Utilisateur>, UtilisateurManager>();
 
             var app = builder.Build();
 
