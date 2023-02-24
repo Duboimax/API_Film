@@ -19,7 +19,7 @@ namespace API_Film.Models.DataManager
         {
             return await filmsDbContext.Utilisateurs.ToListAsync();
         }
-        public async Task<ActionResult<Utilisateur>> GetById(int id)
+        public async Task<ActionResult<Utilisateur>> GetByIdAsync(int id)
         {
             return await filmsDbContext.Utilisateurs.FirstOrDefaultAsync(u => u.UtilisateurId == id);
         }

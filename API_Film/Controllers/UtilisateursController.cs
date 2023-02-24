@@ -40,7 +40,7 @@ namespace API_Film.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
-            var utilisateur = await datatRepository.GetById(id);
+            var utilisateur = await datatRepository.GetByIdAsync(id);
 
             if (utilisateur == null || utilisateur.Value == null)
             {
@@ -59,7 +59,7 @@ namespace API_Film.Controllers
         {
             var utilisateur = await datatRepository.GetByStringAsync(mail);
 
-            if(utilisateur == null ||utilisateur.Value == null)
+            if(utilisateur == null || utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -81,7 +81,7 @@ namespace API_Film.Controllers
                 return BadRequest();
             }
 
-            var userToUpdate = await datatRepository.GetById(id);
+            var userToUpdate = await datatRepository.GetByIdAsync(id);
             if(userToUpdate == null)
             {
                 return NotFound();
@@ -120,7 +120,7 @@ namespace API_Film.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur =  await datatRepository.GetById(id);
+            var utilisateur =  await datatRepository.GetByIdAsync(id);
             if (utilisateur == null)
             {
                 return NotFound();
