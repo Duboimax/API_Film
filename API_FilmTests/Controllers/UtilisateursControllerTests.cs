@@ -56,6 +56,7 @@ namespace API_Film.Controllers.Tests
         public void GetUtilisateurByIdTest_test_Pas_Ok()
         {
             var result = controller.GetUtilisateurById(250).Result;
+            Console.WriteLine("test");
 
             Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, StatusCodes.Status404NotFound, "Pas 404");
         }
@@ -74,8 +75,8 @@ namespace API_Film.Controllers.Tests
         public void GetUtilisateurByEmailTest_Return_404()
         {
             string mail = "bigpack";
-            var result = controller.GetUtilisateurByEmail(mail);
-            Assert.AreEqual(((NotFoundResult)result.Result.Result).StatusCode, StatusCodes.Status404NotFound, "Pas 404");
+            var result = controller.GetUtilisateurByEmail(mail).Result;
+            Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, StatusCodes.Status404NotFound, "Pas 404");
         }
 
         [TestMethod()]

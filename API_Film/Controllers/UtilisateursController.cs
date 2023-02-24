@@ -36,11 +36,13 @@ namespace API_Film.Controllers
         // GET: api/Utilisateurs/5
         [HttpGet("{id}")]
         [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateurById(int id)
         {
             var utilisateur = await datatRepository.GetById(id);
 
-            if (utilisateur == null)
+            if (utilisateur == null || utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -50,11 +52,14 @@ namespace API_Film.Controllers
 
 
         [HttpGet("{mail}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ActionName("GetByEmail")]
         public async Task<ActionResult<Utilisateur>>GetUtilisateurByEmail(string mail)
         {
             var utilisateur = await datatRepository.GetByStringAsync(mail);
-            if(utilisateur == null)
+
+            if(utilisateur == null ||utilisateur.Value == null)
             {
                 return NotFound();
             }
@@ -76,14 +81,14 @@ namespace API_Film.Controllers
                 return BadRequest();
             }
 
-            var userToUpdate = datatRepository.GetById(id);
+            var userToUpdate = await datatRepository.GetById(id);
             if(userToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                datatRepository.UpdateAsync(userToUpdate.Result.Value, utilisateur);
+                datatRepository.UpdateAsync(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
 
@@ -92,7 +97,7 @@ namespace API_Film.Controllers
         // POST: api/Utilisateurs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ActionName("Post")]
         public async Task<ActionResult<Utilisateur>> PostUtilisateur(Utilisateur utilisateur)
@@ -111,17 +116,17 @@ namespace API_Film.Controllers
         // DELETE: api/Utilisateurs/5
         [HttpDelete("{id}")]
         [ActionName("Delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur = datatRepository.GetById(id);
+            var utilisateur =  await datatRepository.GetById(id);
             if (utilisateur == null)
             {
                 return NotFound();
             }
 
-           await datatRepository.DeleteAsync(utilisateur.Result.Value);
+           await datatRepository.DeleteAsync(utilisateur.Value);
 
             return NoContent();
         }
