@@ -88,7 +88,7 @@ namespace API_Film.Controllers
             }
             else
             {
-                datatRepository.UpdateAsync(userToUpdate.Value, utilisateur);
+                await datatRepository.UpdateAsync(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
 
@@ -107,7 +107,7 @@ namespace API_Film.Controllers
                 return BadRequest(ModelState);
             }
 
-            datatRepository.AddAsync(utilisateur);
+            await datatRepository.AddAsync(utilisateur);
             
 
             return CreatedAtAction("GetById", new { id = utilisateur.UtilisateurId }, utilisateur);
