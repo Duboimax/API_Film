@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using API_Film.Models.Repository;
+using API_Film.Models.DataManager;
 
 namespace API_Film.Controllers.Tests
 {
@@ -19,6 +21,8 @@ namespace API_Film.Controllers.Tests
         private FilmRatingContext _context;
         private UtilisateursController controller;
 
+        private IDataRepository<Utilisateur> dataRepository;
+
         public UtilisateursControllerTests()
         { }
 
@@ -27,7 +31,8 @@ namespace API_Film.Controllers.Tests
         {
             var builder = new DbContextOptionsBuilder<FilmRatingContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRating;uid=postgres;password=postgres");
             _context = new FilmRatingContext(builder.Options);
-            controller = new UtilisateursController(_context);
+            dataRepository = new UtilisateurManager(_context);
+            controller = new UtilisateursController(dataRepository);
         }
 
         [TestMethod()]
@@ -50,7 +55,8 @@ namespace API_Film.Controllers.Tests
         [TestMethod()]
         public void GetUtilisateurByIdTest_test_Pas_Ok()
         {
-            var result = controller.GetUtilisateurById(100).Result;
+            var result = controller.GetUtilisateurById(250).Result;
+            Console.WriteLine("test");
 
             Assert.AreEqual(((NotFoundResult)result.Result).StatusCode, StatusCodes.Status404NotFound, "Pas 404");
         }
